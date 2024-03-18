@@ -1,29 +1,30 @@
-#!/bin/bash
-echo "> Health check 시작"
-echo "> curl -s http://localhost:8080/health "
+#!/usr/bin/env bash
 
-for RETRY_COUNT in {1..15}
+CURRENT_PORT=$(cat /etc/nginx/conf.d/service-url.inc | grep -Po '[0-9]+' | tail -1)
+TARGET_PORT=0
+
+if [ ${CURRENT_PORT} -eq 8081 ]; then
+  TARGET_PORT=8082
+elif [ ${CURRENT_PORT} -eq 8082 ]; then
+  TARGET_PORT=8081
+else
+  echo "No WAS is connected to nginx"
+  exit 1
+fi
+
+echo "Start health check of WAS at 'http://127.0.0.1:${TARGET_PORT}' ..."
+
+for RETRY_COUNT in 1 2 3 4 5 6 7 8 9 10
 do
-  # RESPONSE body 데이터에 'UP'이라는 글자가 있다면 성공, 없다면 다시 체크
-  RESPONSE=$(curl -s http://localhost:8080/actuator/health)
-  UP_COUNT=$(echo $RESPONSE | grep 'UP' | wc -l)
+  echo "#${RETRY_COUNT} trying..."
+  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:${TARGET_PORT}/health)
 
-  if [ $UP_COUNT -ge 1 ]
-  then # $up_count >= 1 ("UP" 문자열이 있는지 검증)
-      echo "> Health check 성공"
-      break
-  else
-      echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
-      echo "> Health check: ${RESPONSE}"
-  fi
-
-  if [ $RETRY_COUNT -eq 10 ]
-  then
-    echo "> Health check 실패. "
+  if [ ${RESPONSE_CODE} -eq 200 ]; then
+    echo "New WAS successfully running"
+    exit 0
+  elif [ ${RETRY_COUNT} -eq 10 ]; then
+    echo "Health check failed."
     exit 1
   fi
-
-  echo "> Health check 연결 실패. 재시도..."
   sleep 10
 done
-exit 0
