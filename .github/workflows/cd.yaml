@@ -62,5 +62,5 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name ec2-cicd-test \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=realyun-cicd-test,bundleType=zip,key=cicdtest/$GITHUB_SHA.zip \
+          --s3-location bucket=realyun-cicd-test,bundleType=zip,key=cicd-test/$GITHUB_SHA.zip \
           --region ap-northeast-2 \
