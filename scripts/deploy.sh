@@ -27,4 +27,4 @@ else
 fi
 
 echo "> $APPLICATION_JAR_NAME 배포"    >> /home/ec2-user/app/deploy.log
-nohup java -jar $APPLICATION_JAR_NAME >> /home/ec2-user/deploy.log 2>/home/ec2-user/app/deploy_err.log &
+nohup java -jar $APPLICATION_JAR_NAME >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy_err.log &
