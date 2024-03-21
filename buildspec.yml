@@ -1,5 +1,4 @@
 version: 0.2
-
 phases:
   build:
     commands:
@@ -10,7 +9,10 @@ phases:
     commands:
       - echo $(basename ./build/libs/*.jar)
       - pwd
-
+artifacts:
+  files:
+    - build/libs/*.jar
+  discard-paths: yes
 cache:
   paths:
     - '/root/.gradle/caches/**/*'
