@@ -1,7 +1,7 @@
 #!/bin/bash
-BUILD_JAR=$(ls /home/ec2-user/app/git/cicd-test/build/libs/*-SNAPSHOT.jar)
+BUILD_JAR=$(ls /home/ec2-user/app/cicd-test/build/libs/*-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
-echo "> build cicd-test: $JAR_NAME" >> /home/ec2-user/app/git/deploy.log
+echo "> build cicd-test: $JAR_NAME" >> /home/ec2-user/app/cicd-test/deploy.log
 
 echo "> build 파일 복사" >> /home/ec2-user/app/deploy.log
 DEPLOY_PATH=/home/ec2-user/app/
