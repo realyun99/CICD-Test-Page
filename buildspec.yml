@@ -18,6 +18,3 @@ artifacts:
     - build/libs/*.jar
     - scripts/**
   discard-paths: yes
-cache:
-  paths:
-    - '/root/.gradle/caches/**/*'
