@@ -4,10 +4,9 @@ BUILD_JAR=$(ls /home/ec2-user/app/*-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 echo "> build cicd-test: $JAR_NAME" >> /home/ec2-user/app/deploy.log
 
-echo "> build 파일 복사" >> /home/ec2-user/app/deploy.log
-# DEPLOY_PATH=/home/ec2-user/app
-DEPLOY_PATH=/home/ec2-user/app/deploy
-cp $BUILD_JAR $DEPLOY_PATH
+#echo "> build 파일 복사" >> /home/ec2-user/app/deploy.log
+DEPLOY_PATH=/home/ec2-user/app
+#cp $BUILD_JAR $DEPLOY_PATH
 
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/app/deploy.log
 CURRENT_PID=$(pgrep -f $JAR_NAME)
