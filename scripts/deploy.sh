@@ -1,6 +1,6 @@
 #!/bin/bash
-#BUILD_JAR=$(ls /home/ec2-user/app/build/libs/*-SNAPSHOT.jar)
-BUILD_JAR=$(ls /home/ec2-user/app/*-SNAPSHOT.jar)
+#BUILD_JAR=$(ls /home/ec2-user/app/build/libs/*.jar)
+BUILD_JAR=$(ls /home/ec2-user/app/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 echo "> build cicd-test: $JAR_NAME" >> /home/ec2-user/app/deploy.log
 
