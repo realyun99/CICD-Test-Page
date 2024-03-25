@@ -5,11 +5,18 @@ JAR_NAME=$(basename $BUILD_JAR)
 echo "> build cicd-test: $JAR_NAME" >> /home/ec2-user/app/deploy.log
 
 echo "> build 파일 복사" >> /home/ec2-user/app/deploy.log
-DEPLOY_PATH=/home/ec2-user/app/build
+DEPLOY_PATH=/home/ec2-user/
 cp $BUILD_JAR $DEPLOY_PATH
 
+echo "> cicd-test.jar 교체"
+CP_JAR_PATH=$DEPLOY_PATH$JAR_NAME
+APPLICATION_JAR_NAME=cicd-test.jar
+APPLICATION_JAR=$DEPLOY_PATH$APPLICATION_JAR_NAME
+
+ln -Tfs $CP_JAR_PATH $APPLICATION_JAR
+
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/app/deploy.log
-CURRENT_PID=$(pgrep -f $JAR_NAME)
+CURRENT_PID=$(pgrep -f $APPLICATION_JAR_NAME)
 
 if [ -z $CURRENT_PID ]
 then
@@ -20,6 +27,5 @@ else
   sleep 5
 fi
 
-DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
-echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/app/deploy.log
-nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/app/deploy_err.log &
+echo "> $APPLICATION_JAR 배포" >> /home/ec2-user/app/deploy.log
+nohup java -jar $APPLICATION_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/app/deploy_err.log &
